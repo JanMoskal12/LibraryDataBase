@@ -23,6 +23,6 @@ Wyniki etapu 2
 
 Wyniki etapu 3
 
-![](forgive and you will be forgiven.png)
+![](judge not and you will not be judged.png)
 
 Wyniki etapu 5
