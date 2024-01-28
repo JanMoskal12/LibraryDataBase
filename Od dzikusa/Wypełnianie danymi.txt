@@ -1,4 +1,4 @@
-INSERT INTO czytelnicy (Imie, Nazwisko, Email, NumerTelefonu, Adres_ID)
+INSERT INTO Czytelnicy (Imie, Nazwisko, Email, NumerTelefonu, Adres_ID)
 VALUES
     ('Aleksandra', 'Nowak', 'aleksandra.nowak@example.com', '123456789', 1),
     ('Piotr', 'Kowalski', 'piotr.kowalski@example.com', '987654321', 2),
@@ -30,8 +30,7 @@ VALUES
     ('Artur', 'Król', 'artur.krol@example.com', '789456123', 28),
     ('Julia', 'Majewska', 'julia.majewska@example.com', '123789456', 29),
     ('Daniel', 'Olszewski', 'daniel.olszewski@example.com', '789123456', 30),
-    ('Elżbieta', 'Jaworska', 'elzbieta.jaworska@example.com', '456789012', 31),
-    ('Sebastian', 'Kaczmarek', 'sebastian.kaczmarek@example.com', '789012345', 32),
+    ('Elżbieta', SELECek', 'sebastian.kaczmarek@example.com', '789012345', 32),
     ('Kamila', 'Głowacka', 'kamila.glowacka@example.com', '123456789', 33),
     ('Robert', 'Zalewski', 'robert.zalewski@example.com', '654321789', 34),
     ('Małgorzata', 'Dąbrowska', 'malgorzata.dabrowska@example.com', '987654321', 35),
@@ -55,7 +54,7 @@ VALUES
 
 
 
-INSERT INTO Adresy (Miejscowosc, Ulica, NrDomu, NrLokalu, KodPocztowy)
+INSERT INTO Adresy (Miejscowość, Ulica, NrDomu, NrLokalu, KodPocztowy)
 VALUES
     ('Lublin', 'Aleja Racławicka', '123', '1A', '20-001'),
     ('Zamość', 'Plac Wolności', '456', 'B', '22-300'),
@@ -109,7 +108,7 @@ VALUES
     ('Łęczna', 'Plac Piłsudskiego', '901', 'J', '21-020');
 
 
-INSERT INTO Egzemplarze (Ksiazka_ID) VALUES
+INSERT INTO Egzemplarze (Książka_ID) VALUES
 (1), (1), (1),
 (2), (2), (2), (2),
 (3), (3), (3), (3),
@@ -169,7 +168,7 @@ INSERT INTO Egzemplarze (Ksiazka_ID) VALUES
 (57), (57), (57), (57),
 (58), (58), (58), (58);
 
-INSERT INTO Książki ("ID_Książka", "Tytuł") VALUES
+INSERT INTO Książki (ID_Książka, Tytuł) VALUES
 (1, "Pan Tadeusz"),
 (2, "Lalka"),
 (3, "Dziady"),
@@ -230,7 +229,7 @@ INSERT INTO Książki ("ID_Książka", "Tytuł") VALUES
 (58, "Ostatni Mohikanin");
 
 
-INSERT INTO Autorzy ("ID_Autor", "Imie", "Nazwisko") VALUES
+INSERT INTO Autorzy (ID_Autor, Imie, Nazwisko) VALUES
 (1, "Adam", "Mickiewicz"),
 (2, "Bolesław", "Prus"),
 (3, "Stanisław", "Wyspiański"),
@@ -299,7 +298,7 @@ INSERT INTO Gatunki (ID_Gatunek, NazwaGatunku) VALUES
 (33, 'Fantasy'),
 (34, 'Literatura Polityczna');
 
-INSERT INTO AutorzyKsiazki ("ID_Książka", "ID_Autor") VALUES
+INSERT INTO AutorzyKsiążki (Autor_ID, Książka_ID) VALUES
 (1, 1), (2, 2), (1, 3), (3, 4), (4, 5),
 (3, 6), (4, 7), (5, 8), (6, 9), (7, 10),
 (8, 11), (6, 12), (6, 13), (9, 14), (8, 15),
@@ -310,10 +309,10 @@ INSERT INTO AutorzyKsiazki ("ID_Książka", "ID_Autor") VALUES
 (23, 36), (23, 37), (23, 38), (24, 39), (25, 40),
 (25, 41), (25, 42), (25, 43), (25, 44), (7, 45),
 (7, 46), (7, 47), (26, 48), (27, 49), (28, 50),
-(29, 51), (8, 52), (30, 53), (31, 54), (32, 55),
-(33, 56), (34, 57), (35, 58);
+(29, 51), (8, 52), (30, 53), (27, 54), (28, 55),
+(29, 56), (31, 57), (30, 58);
 
-INSERT INTO GatunkiKsiążki ("ID_Książka", "ID_Gatunek") VALUES
+INSERT INTO GatunkiKsiążki (Książka_ID, Gatunek_ID) VALUES
 (1, 13), (2, 2), (3, 13), (4, 3), (5, 5),
 (6, 8), (7, 7), (8, 8), (9, 33), (10, 10),
 (11, 11), (12, 33), (13, 33), (14, 14), (15, 8),
@@ -328,110 +327,7 @@ INSERT INTO GatunkiKsiążki ("ID_Książka", "ID_Gatunek") VALUES
 (56, 33), (57, 22), (58, 32);
 
 
-INSERT INTO Rejestr (DataWypożyczenia, DataOddania, Czytelnik_ID, Egzemplarz_ID) VALUES
-(NULL, NULL, 31, 45),
-(NULL, NULL, 14, 198),
-(NULL, NULL, 6, 115),
-(NULL, NULL, 27, 76),
-(NULL, NULL, 48, 23),
-(NULL, NULL, 39, 159),
-(NULL, NULL, 11, 195),
-(NULL, NULL, 22, 73),
-(NULL, NULL, 1, 147),
-(NULL, NULL, 44, 109),
-(NULL, NULL, 18, 80),
-(NULL, NULL, 30, 181),
-(NULL, NULL, 9, 100),
-(NULL, NULL, 37, 13),
-(NULL, NULL, 2, 162),
-(NULL, NULL, 28, 32),
-(NULL, NULL, 16, 134),
-(NULL, NULL, 49, 41),
-(NULL, NULL, 42, 55),
-(NULL, NULL, 24, 122),
-(NULL, NULL, 35, 89),
-(NULL, NULL, 50, 186),
-(NULL, NULL, 13, 3),
-(NULL, NULL, 7, 68),
-(NULL, NULL, 26, 127),
-(NULL, NULL, 46, 99),
-(NULL, NULL, 3, 67),
-(NULL, NULL, 33, 114),
-(NULL, NULL, 17, 181),
-(NULL, NULL, 40, 27),
-(NULL, NULL, 10, 149),
-(NULL, NULL, 29, 9),
-(NULL, NULL, 21, 187),
-(NULL, NULL, 4, 144),
-(NULL, NULL, 45, 193),
-(NULL, NULL, 38, 47),
-(NULL, NULL, 12, 158),
-(NULL, NULL, 23, 57),
-(NULL, NULL, 5, 172),
-(NULL, NULL, 36, 182),
-(NULL, NULL, 19, 36),
-(NULL, NULL, 32, 83),
-(NULL, NULL, 8, 69),
-(NULL, NULL, 41, 104),
-(NULL, NULL, 15, 176),
-(NULL, NULL, 34, 125),
-(NULL, NULL, 47, 154),
-(NULL, NULL, 20, 92),
-(NULL, NULL, 25, 14),
-(NULL, NULL, 43, 178),
-(NULL, NULL, 9, 168),
-(NULL, NULL, 24, 121),
-(NULL, NULL, 36, 79),
-(NULL, NULL, 14, 54),
-(NULL, NULL, 50, 104),
-(NULL, NULL, 2, 10),
-(NULL, NULL, 45, 189),
-(NULL, NULL, 19, 132),
-(NULL, NULL, 32, 87),
-(NULL, NULL, 7, 61),
-(NULL, NULL, 41, 127),
-(NULL, NULL, 27, 105),
-(NULL, NULL, 10, 37),
-(NULL, NULL, 34, 11),
-(NULL, NULL, 21, 176),
-(NULL, NULL, 48, 140),
-(NULL, NULL, 16, 150),
-(NULL, NULL, 4, 91),
-(NULL, NULL, 29, 69),
-(NULL, NULL, 12, 178),
-(NULL, NULL, 39, 98),
-(NULL, NULL, 23, 26),
-(NULL, NULL, 46, 159),
-(NULL, NULL, 1, 85),
-(NULL, NULL, 25, 45),
-(NULL, NULL, 38, 117),
-(NULL, NULL, 13, 93),
-(NULL, NULL, 6, 48),
-(NULL, NULL, 31, 174),
-(NULL, NULL, 18, 72),
-(NULL, NULL, 43, 17),
-(NULL, NULL, 8, 8),
-(NULL, NULL, 20, 142),
-(NULL, NULL, 35, 80),
-(NULL, NULL, 3, 60),
-(NULL, NULL, 49, 192),
-(NULL, NULL, 22, 136),
-(NULL, NULL, 15, 133),
-(NULL, NULL, 37, 33),
-(NULL, NULL, 11, 198),
-(NULL, NULL, 26, 66),
-(NULL, NULL, 42, 105),
-(NULL, NULL, 17, 76),
-(NULL, NULL, 33, 134),
-(NULL, NULL, 5, 1),
-(NULL, NULL, 28, 163),
-(NULL, NULL, 40, 121),
-(NULL, NULL, 44, 148),
-(NULL, NULL, 30, 57),
-(NULL, NULL, 50, 92),
-(NULL, NULL, 24, 116);
 
-  
 INSERT INTO Rejestr (DataWypożyczenia, DataOddania, Czytelnik_ID, Egzemplarz_ID) VALUES
 ('2024-01-03', '2024-01-17', 31, 45),
 ('2024-01-07', '2024-01-21', 14, 198),
