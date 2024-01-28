@@ -1,10 +1,10 @@
 TODO:
--Stworzenie konta użytkownika z odpowiednimi uprawnieniami do select w odpowiednich perspektywach
--Dodanie wyświetlania książek, gatunku, autora (pomyśleć jak dodać listę dostępnych egzemplarzy)
+1)Stworzenie konta użytkownika z odpowiednimi uprawnieniami do select w odpowiednich perspektywach
+2)Dodanie wyświetlania książek, gatunku, autora (pomyśleć jak dodać listę dostępnych egzemplarzy)
 *-Dodanie książek których choć 1 egzemplarz jest dostępny*
 -Dodanie wybierania wyświetlania książek 1 gatunku
 -Dodanie wybierania wyświetlania książek 1 autora
 -Dodanie zapytania liczby wypożyczonych książek użytkownika
 
-
-
+2)CREATE VIEW AutorzyKsiążki_GatunkiKsiążki AS SELECT ak.Książka_ID, Gatunek_ID, Autor_ID FROM AutorzyKsiążki AS ak, GatunkiKsiążki AS gk WHERE gk.Książka_ID = ak.Książka_ID;
+SELECT Tytuł, Imie, Nazwisko, NazwaGatunku as Gatunek FROM AutorzyKsiążki_GatunkiKsiążki AS ak_gk, Książki, Autorzy, Gatunki WHERE Książki.ID_Książka = ak_gk.Książka_ID AND Gatunki.ID_Gatunek = ak_gk.Gatunek_ID AND Autorzy.ID_Autor = ak_gk.Autor_ID;
