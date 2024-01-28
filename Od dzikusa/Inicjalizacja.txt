@@ -1,0 +1,18 @@
+CREATE TABLE czytelnicy (
+    ID_Czytelnicy INT PRIMARY KEY AUTO_INCREMENT,
+    Imie VARCHAR(20) NOT NULL,
+    Nazwisko VARCHAR(30) NOT NULL,
+    Email VARCHAR(65) NOT NULL,
+    NumerTelefonu CHAR(9) NOT NULL,
+    Adres_ID INT,
+    FOREIGN KEY (Adres_ID) REFERENCES Adresy(ID_Adres) -- Zakładam, że istnieje tabela "adresy" z kolumną ID_Adres jako kluczem głównym
+);
+
+CREATE TABLE Adresy (
+    ID_Adres INT PRIMARY KEY AUTO_INCREMENT,
+    Miejscowosc VARCHAR(18) NOT NULL,
+    Ulica VARCHAR(20) NOT NULL,
+    NrDomu VARCHAR(5) NOT NULL,
+    NrLokalu VARCHAR(5),
+    KodPocztowy CHAR(6) NOT NULL
+);
