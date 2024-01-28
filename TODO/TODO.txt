@@ -1,0 +1,10 @@
+TODO:
+-Stworzenie konta użytkownika z odpowiednimi uprawnieniami do select w odpowiednich perspektywach
+-Dodanie wyświetlania książek, gatunku, autora (pomyśleć jak dodać listę dostępnych egzemplarzy)
+*-Dodanie książek których choć 1 egzemplarz jest dostępny*
+-Dodanie wybierania wyświetlania książek 1 gatunku
+-Dodanie wybierania wyświetlania książek 1 autora
+-Dodanie zapytania liczby wypożyczonych książek użytkownika
+
+
+
