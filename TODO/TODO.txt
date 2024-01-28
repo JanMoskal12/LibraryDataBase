@@ -1,15 +1,14 @@
 TODO:
-1)Stworzenie konta użytkownika z odpowiednimi uprawnieniami do select w odpowiednich perspektywach
-2)Dodanie wyświetlania książek, gatunku, autora (pomyśleć jak dodać listę dostępnych egzemplarzy)
-*-Dodanie książek których choć 1 egzemplarz jest dostępny*
--Dodanie wybierania wyświetlania książek 1 gatunku
--Dodanie wybierania wyświetlania książek 1 autora
--Dodanie zapytania liczby wypożyczonych książek użytkownika
+1)Stworzenie konta użytkownika z odpowiednimi uprawnieniami do select w odpowiednich perspektywach 
+2)Dodanie wyświetlania książek, gatunku, autora (pomyśleć jak dodać listę dostępnych egzemplarzy) -------
+3)Dodanie wybierania wyświetlania książek 1 gatunku -----
+4)Dodanie wybierania wyświetlania książek 1 autora -----
+5)Dodanie zapytania liczby wypożyczonych książek użytkownika
 
 2)CREATE VIEW AutorzyKsiążki_GatunkiKsiążki AS SELECT ak.Książka_ID, Gatunek_ID, Autor_ID FROM AutorzyKsiążki AS ak, GatunkiKsiążki AS gk WHERE gk.Książka_ID = ak.Książka_ID;
 SELECT Tytuł, Imie, Nazwisko, NazwaGatunku as Gatunek FROM AutorzyKsiążki_GatunkiKsiążki AS ak_gk, Książki, Autorzy, Gatunki WHERE Książki.ID_Książka = ak_gk.Książka_ID AND Gatunki.ID_Gatunek = ak_gk.Gatunek_ID AND Autorzy.ID_Autor = ak_gk.Autor_ID;
 
-4)
+3)
 DELIMITER //
 CREATE PROCEDURE GetBooksByGenre(IN parametr_gatunku INT)
 BEGIN
@@ -23,10 +22,23 @@ END //
 DELIMITER ;
 CALL GetBooksByGenre(7);
 
-6) SELECT Tytuł, Egzemplarz_ID, DataWypożyczenia, DataOddania, Imie, Nazwisko FROM (SELECT * FROM Książki, Egzemplarze, Rejestr, Czytelnicy WHERE Książki.ID_Książka = Egzemplarze.Książka_ID AND Rejestr.Egzemplarz_ID = Egzemplarze.ID_Egzemplarz AND Rejestr.Czytelnik_ID = Czytelnicy.ID_Czytelnik) AS rkc;
 
+4)
+DELIMITER //
+CREATE PROCEDURE GetBooksByAutor(IN parametr_autor INT)
+BEGIN
+    SELECT Tytuł, Imie, Nazwisko, NazwaGatunku as Gatunek 
+    FROM AutorzyKsiążki_GatunkiKsiążki AS ak_gk
+    JOIN Książki ON Książki.ID_Książka = ak_gk.Książka_ID
+    JOIN Autorzy ON Autorzy.ID_Autor = ak_gk.Autor_ID
+    JOIN Gatunki ON Gatunki.ID_Gatunek = ak_gk.Gatunek_ID
+    WHERE Autor_ID = parametr_autor;
+END //
+DELIMITER ;
+CALL GetBooksByAutor(7);
 
-SELECT ID_Egzemplarz, Tytuł FROM (SELECT * FROM Egzemplarze, Książki, Rejestr WHERE Książki.ID_Książka = Egzemplarze.Książka_ID AND Rejestr.Egzemplarz_ID != Egzemplarze.ID_Egzemplarz) AS ekr WHERE DataOddania > "2024-01-20";
+5) SELECT Tytuł, Egzemplarz_ID, DataWypożyczenia, DataOddania, Imie, Nazwisko FROM (SELECT * FROM Książki, Egzemplarze, Rejestr, Czytelnicy WHERE Książki.ID_Książka = Egzemplarze.Książka_ID AND Rejestr.Egzemplarz_ID = Egzemplarze.ID_Egzemplarz AND Rejestr.Czytelnik_ID = Czytelnicy.ID_Czytelnik) AS rkc;
+
 
 SELECT e.ID_Egzemplarz, k.Tytuł 
 FROM Egzemplarze e 
@@ -39,12 +51,14 @@ WHERE e.ID_Egzemplarz NOT IN (
 );
 
 
-SELECT e.ID_Egzemplarz, k.Tytuł
-    -> FROM Egzemplarze e
-    -> JOIN Książki k ON e.Książka_ID = k.ID_Książka
-    -> LEFT JOIN Rejestr r ON r.Egzemplarz_ID = e.ID_Egzemplarz
-    -> WHERE r.Egzemplarz_ID IS NULL AND e.ID_Egzemplarz NOT IN (
-    ->     SELECT Egzemplarz_ID
-    ->     FROM Rejestr
-    ->     WHERE DataOddania > '2023-01-20'
-    -> );
+
+#### Wybieranie wypożyczonych egzemplarzy
+SELECT Egzemplarz_ID FROM Egzemplarze LEFT JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NOT NULL;
+
+
+#### Ksiażki z egzemplarzami dla tych nie wybranych
+SELECT ID_Egzemplarz, Tytuł FROM Książki JOIN Egzemplarze ON Książki.ID_Książka = Egzemplarze.Książka_ID WHERE (ID_Egzemplarz IN (SELECT ID_Egzemplarz FROM Egzemplarze LEFT JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NULL));
+
+
+#### Posortowane dostepne egzemplarze dla danych ksiazek
+SELECT Tytuł, COUNT(ID_Egzemplarz) AS 'Liczba dostępnych egzemplarzy' FROM Książki JOIN Egzemplarze ON Książki.ID_Książka = Egzemplarze.Książka_ID WHERE (ID_Egzemplarz IN (SELECT ID_Egzemplarz FROM Egzemplarze LEFT JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NULL)) GROUP BY Tytuł ORDER BY COUNT(ID_Egzemplarz) DESC;
