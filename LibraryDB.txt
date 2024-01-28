@@ -1,0 +1,284 @@
+CREATE TABLE Książki (
+    ID_Książka INTEGER PRIMARY KEY AUTOINCREMENT,
+    Tytuł VARCHAR(60) NOT NULL
+);
+
+
+CREATE TABLE Autorzy (
+    ID_Autor INTEGER PRIMARY KEY AUTOINCREMENT,
+    Imie VARCHAR(20) NOT NULL,
+    Nazwisko VARCHAR(30) NOT NULL
+);
+
+
+CREATE TABLE Gatunki (
+    ID_Gatunek INTEGER PRIMARY KEY AUTOINCREMENT,
+    NazwaGatunku VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE AutorzyKsiążki (
+    ID_Książka INTEGER,
+    ID_Autor INTEGER,
+    FOREIGN KEY (ID_Książka) REFERENCES Książki (ID_Książka),
+    FOREIGN KEY (ID_Autor) REFERENCES Autorzy (ID_Autor)
+);
+
+CREATE TABLE GatunkiKsiążki (
+    ID_Książka INTEGER,
+    ID_Gatunek INTEGER,
+    FOREIGN KEY (ID_Książka) REFERENCES Książki (ID_Książka),
+    FOREIGN KEY (ID_Gatunek) REFERENCES Gatunki (ID_Gatunek)
+);
+
+INSERT INTO Książki ("ID_Książka", "Tytuł") VALUES
+(1, "Pan Tadeusz"),
+(2, "Lalka"),
+(3, "Dziady"),
+(4, "Wesele"),
+(5, "Ferdydurke"),
+(6, "Quo Vadis"),
+(7, "Hamlet"),
+(8, "Harry Potter i Kamień Filozoficzny"),
+(9, "Władca Pierścieni: Drużyna Pierścienia"),
+(10, "Zbrodnia i Kara"),
+(11, "Mały Książę"),
+(12, "Władca Pierścieni: Powrót Króla"),
+(13, "Władca Pierścieni: Dwie Wieże"),
+(14, "Wojna i Pokój"),
+(15, "Harry Potter i Komnata Tajemnic"),
+(16, "Harry Potter i Więzień Azkabanu"),
+(17, "Harry Potter i Czara Ognia"),
+(18, "Harry Potter i Zakon Feniksa"),
+(19, "Harry Potter i Książę Półkrwi"),
+(20, "Harry Potter i Insygnia Śmierci"),
+(21, "Duma i Uprzedzenie"),
+(22, "Wilk z Wall Street"),
+(23, "Zaginiony Symbol"),
+(24, "Anioły i Demony"),
+(25, "Inferno"),
+(26, "Piekło Pocztówka Z Piekła Rodem"),
+(27, "Anioł Zagłady"),
+(28, "Kod Leonarda da Vinci"),
+(29, "Digital Fortress"),
+(30, "Forteca"),
+(31, "Mroczna Wieża"),
+(32, "Saga Zmierzch"),
+(33, "Dracula"),
+(34, "Wampir"),
+(35, "Nosferatu"),
+(36, "Lśnienie"),
+(37, "Koszmar z Ulicy Wiązów"),
+(38, "To"),
+(39, "Winnica"),
+(40, "Pan Wołodyjowski"),
+(41, "Ogniem i Mieczem"),
+(42, "Potop"),
+(43, "Krzyżacy"),
+(44, "Trylogia Sienkiewicza"),
+(45, "Romeo i Julia"),
+(46, "Makbet"),
+(47, "Sen Nocy Letniej"),
+(48, "Książę"),
+(49, "Szatan z Siódmej Klasy"),
+(50, "Pan Samochodzik"),
+(51, "Kubuś Puchatek"),
+(52, "Harry Potter i Przeklęte Dziecko"),
+(53, "Kopciuszek"),
+(54, "Baśnie Braci Grimm"),
+(55, "Baśnie Hansa Christiana Andersena"),
+(56, "Narnia"),
+(57, "Winni Puh"),
+(58, "Ostatni Mohikanin");
+
+
+INSERT INTO Autorzy ("ID_Autor", "Imie", "Nazwisko") VALUES
+(1, "Adam", "Mickiewicz"),
+(2, "Bolesław", "Prus"),
+(3, "Stanisław", "Wyspiański"),
+(4, "Witold", "Gombrowicz"),
+(5, "Henryk", "Sienkiewicz"),
+(6, "William", "Shakespeare"),
+(7, "J.K.", "Rowling"),
+(8, "J.R.R.", "Tolkien"),
+(9, "Fiodor", "Dostojewski"),
+(10, "Antoine", "de Saint-Exupéry"),
+(11, "Lew", "Tołstoj"),
+(12, "Jane", "Austen"),
+(13, "Jordan", "Belfort"),
+(14, "Dan", "Brown"),
+(15, "Rafał A.", "Ziemkiewicz"),
+(16, "Tomasz", "Różycki"),
+(17, "Stephen", "King"),
+(18, "Stephenie", "Meyer"),
+(19, "Bram", "Stoker"),
+(20, "Wojciech", "Chmielarz"),
+(21, "Roman", "Polański"),
+(22, "Maria", "Kruger"),
+(23, "Niccolò", "Machiavelli"),
+(24, "Kornel", "Makuszyński"),
+(25, "Zbigniew", "Nienacki"),
+(26, "Charles", "Perrault"),
+(27, "Bracia", "Grimm"),
+(28, "Hans Christian", "Andersen"),
+(29, "C.S.", "Lewis"),
+(30, "James Fenimore", "Cooper");
+
+
+INSERT INTO Gatunki (ID_Gatunek, NazwaGatunku) VALUES
+(1, 'Epos'),
+(2, 'Powieść'),
+(3, 'Dramat'),
+(4, 'Komedia'),
+(5, 'Satyra'),
+(6, 'Fantasy'),
+(7, 'Tragedia'),
+(8, 'Fantasy'),
+(9, 'Science Fiction'),
+(10, 'Psychologiczna'),
+(11, 'Baśń'),
+(12, 'Akcja i Przygoda'),
+(13, 'Klasyka'),
+(14, 'Saga'),
+(15, 'Romans'),
+(16, 'Biznes i Finanse'),
+(17, 'Sensacja'),
+(18, 'Literatura Faktu'),
+(19, 'Parodia'),
+(20, 'Literatura Polska'),
+(21, 'Kryminał'),
+(22, 'Literatura Dziecięca'),
+(23, 'Przygodowa'),
+(24, 'Literatura Angielska'),
+(25, 'Literatura Rosyjska'),
+(26, 'Horror'),
+(27, 'Literatura Amerykańska'),
+(28, 'Literatura Francuska'),
+(29, 'Literatura Niemiecka'),
+(30, 'Literatura Włoska'),
+(31, 'Literatura Romansowa'),
+(32, 'Western'),
+(33, 'Fantasy'),
+(34, 'Literatura Polityczna');
+
+
+INSERT INTO AutorzyKsiazki ("ID_Książka", "ID_Autor") VALUES
+(1, 1),   -- Adam Mickiewicz - Pan Tadeusz
+(2, 2),   -- Bolesław Prus - Lalka
+(1, 3),   -- Adam Mickiewicz - Dziady
+(3, 4),   -- Stanisław Wyspiański - Wesele
+(4, 5),   -- Witold Gombrowicz - Ferdydurke
+(3, 6),   -- Henryk Sienkiewicz - Quo Vadis
+(4, 7),   -- William Shakespeare - Hamlet
+(5, 8),   -- J.K. Rowling - Harry Potter i Kamień Filozoficzny
+(6, 9),   -- J.R.R. Tolkien - Władca Pierścieni: Drużyna Pierścienia
+(7, 10),  -- Fiodor Dostojewski - Zbrodnia i Kara
+(8, 11),  -- Antoine de Saint-Exupéry - Mały Książę
+(6, 12),  -- J.R.R. Tolkien - Władca Pierścieni: Powrót Króla
+(6, 13),  -- J.R.R. Tolkien - Władca Pierścieni: Dwie Wieże
+(9, 14),  -- Lew Tołstoj - Wojna i Pokój
+(8, 15),  -- J.K. Rowling - Harry Potter i Komnata Tajemnic
+(8, 16),  -- J.K. Rowling - Harry Potter i Więzień Azkabanu
+(8, 17),  -- J.K. Rowling - Harry Potter i Czara Ognia
+(8, 18),  -- J.K. Rowling - Harry Potter i Zakon Feniksa
+(8, 19),  -- J.K. Rowling - Harry Potter i Książę Półkrwi
+(8, 20),  -- J.K. Rowling - Harry Potter i Insygnia Śmierci
+(10, 21), -- Jane Austen - Duma i Uprzedzenie
+(11, 22), -- Jordan Belfort - Wilk z Wall Street
+(12, 23), -- Dan Brown - Zaginiony Symbol
+(12, 24), -- Dan Brown - Anioły i Demony
+(12, 25), -- Dan Brown - Inferno
+(13, 26), -- Rafał A. Ziemkiewicz - Piekło Pocztówka Z Piekła Rodem
+(14, 27), -- Tomasz Różycki - Anioł Zagłady
+(15, 28), -- Dan Brown - Kod Leonarda da Vinci
+(16, 29), -- Dan Brown - Digital Fortress
+(17, 30), -- Dan Brown - Forteca
+(18, 31), -- Stephen King - Mroczna Wieża
+(19, 32), -- Stephenie Meyer - Saga Zmierzch
+(20, 33), -- Bram Stoker - Dracula
+(21, 34), -- Wojciech Chmielarz - Wampir
+(22, 35), -- Roman Polański - Nosferatu
+(23, 36), -- Stephen King - Lśnienie
+(23, 37), -- Stephen King - Koszmar z Ulicy Wiązów
+(23, 38), -- Stephen King - To
+(24, 39), -- Maria Kruger - Winnica
+(25, 40), -- Henryk Sienkiewicz - Pan Wołodyjowski
+(25, 41), -- Henryk Sienkiewicz - Ogniem i Mieczem
+(25, 42), -- Henryk Sienkiewicz - Potop
+(25, 43), -- Henryk Sienkiewicz - Krzyżacy
+(25, 44), -- Henryk Sienkiewicz - Trylogia Sienkiewicza
+(7, 45),  -- William Shakespeare - Romeo i Julia
+(7, 46),  -- William Shakespeare - Makbet
+(7, 47),  -- William Shakespeare - Sen Nocy Letniej
+(26, 48), -- Niccolò Machiavelli - Książę
+(27, 49), -- Kornel Makuszyński - Szatan z Siódmej Klasy
+(28, 50), -- Zbigniew Nienacki - Pan Samochodzik
+(29, 51), -- A.A. Milne - Kubuś Puchatek
+(8, 52),  -- J.K. Rowling - Harry Potter i Przeklęte Dziecko
+(30, 53), -- Charles Perrault - Kopciuszek
+(31, 54), -- Bracia Grimm - Baśnie Braci Grimm
+(32, 55), -- Hans Christian Andersen - Baśnie Hansa Christiana Andersena
+(33, 56), -- C.S. Lewis - Narnia
+(34, 57), -- A.A. Milne - Winni Puh
+(35, 58)  -- James Fenimore Cooper - Ostatni Mohikanin
+;
+
+
+INSERT INTO GatunkiKsiążki ("ID_Książka", "ID_Gatunek") VALUES
+(1, 13),   -- Pan Tadeusz - Klasyka
+(2, 2),    -- Lalka - Powieść
+(3, 13),   -- Dziady - Klasyka
+(4, 3),    -- Wesele - Dramat
+(5, 5),    -- Ferdydurke - Satyra
+(6, 8),    -- Quo Vadis - Fantasy
+(7, 7),    -- Hamlet - Tragedia
+(8, 8),    -- Harry Potter i Kamień Filozoficzny - Fantasy
+(9, 33),   -- Władca Pierścieni: Drużyna Pierścienia - Fantasy
+(10, 10),  -- Zbrodnia i Kara - Psychologiczna
+(11, 11),  -- Mały Książę - Baśń
+(12, 33),  -- Władca Pierścieni: Powrót Króla - Fantasy
+(13, 33),  -- Władca Pierścieni: Dwie Wieże - Fantasy
+(14, 14),  -- Wojna i Pokój - Saga
+(15, 8),   -- Harry Potter i Komnata Tajemnic - Fantasy
+(16, 8),   -- Harry Potter i Więzień Azkabanu - Fantasy
+(17, 8),   -- Harry Potter i Czara Ognia - Fantasy
+(18, 8),   -- Harry Potter i Zakon Feniksa - Fantasy
+(19, 8),   -- Harry Potter i Książę Półkrwi - Fantasy
+(20, 8),   -- Harry Potter i Insygnia Śmierci - Fantasy
+(21, 31),  -- Duma i Uprzedzenie - Literatura Romansowa
+(22, 16),  -- Wilk z Wall Street - Biznes i Finanse
+(23, 18),  -- Zaginiony Symbol - Literatura Faktu
+(24, 18),  -- Anioły i Demony - Literatura Faktu
+(25, 18),  -- Inferno - Literatura Faktu
+(26, 24),  -- Piekło Pocztówka Z Piekła Rodem - Horror
+(27, 19),  -- Anioł Zagłady - Parodia
+(28, 18),  -- Kod Leonarda da Vinci - Literatura Faktu
+(29, 29),  -- Digital Fortress - Literatura Angielska
+(30, 29),  -- Forteca - Literatura Angielska
+(31, 17),  -- Mroczna Wieża - Sensacja
+(32, 32),  -- Saga Zmierzch - Kryminał
+(33, 19),  -- Dracula - Horror
+(34, 21),  -- Wampir - Literatura Dziecięca
+(35, 26),  -- Nosferatu - Horror
+(36, 26),  -- Lśnienie - Horror
+(37, 26),  -- Koszmar z Ulicy Wiązów - Horror
+(38, 26),  -- To - Horror
+(39, 20),  -- Winnica - Literatura Polska
+(40, 12),  -- Pan Wołodyjowski - Akcja i Przygoda
+(41, 12),  -- Ogniem i Mieczem - Akcja i Przygoda
+(42, 12),  -- Potop - Akcja i Przygoda
+(43, 12),  -- Krzyżacy - Akcja i Przygoda
+(44, 12),  -- Trylogia Sienkiewicza - Akcja i Przygoda
+(45, 7),   -- Romeo i Julia - Tragedia
+(46, 7),   -- Makbet - Tragedia
+(47, 7),   -- Sen Nocy Letniej - Tragedia
+(48, 12),  -- Książę - Akcja i Przygoda
+(49, 21),  -- Szatan z Siódmej Klasy - Kryminał
+(50, 32),  -- Pan Samochodzik - Saga
+(51, 22),  -- Kubuś Puchatek - Biznes i Finanse
+(52, 8),   -- Harry Potter i Przeklęte Dziecko - Fantasy
+(53, 26),  -- Kopciuszek - Horror
+(54, 11),  -- Baśnie Braci Grimm - Baśń
+(55, 11),  -- Baśnie Hansa Christiana Andersena - Baśń
+(56, 33),  -- Narnia - Fantasy
+(57, 22),  -- Winni Puh - Biznes i Finanse
+(58, 32);  -- Ostatni Mohikanin - Saga
