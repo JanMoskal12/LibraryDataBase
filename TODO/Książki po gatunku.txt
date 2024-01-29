@@ -1,0 +1,18 @@
+### Bibliotekarz najpierw wyszukuje w Gatunki ID_Gatunek, którego szuka czytelnik
+
+SELECT ID_Gatunek, Gatunek FROM Gatunki;
+
+### Następnie wyszukuje książki danego gatunku po Gatunek_ID
+
+DELIMITER //
+CREATE PROCEDURE KsiążkiPoGatunku(IN parametr_gatunku INT)
+BEGIN
+    SELECT Tytuł, Imie, Nazwisko, NazwaGatunku as Gatunek 
+    FROM AutorzyKsiążki_GatunkiKsiążki AS ak_gk
+    JOIN Książki ON Książki.ID_Książka = ak_gk.Książka_ID
+    JOIN Autorzy ON Autorzy.ID_Autor = ak_gk.Autor_ID
+    JOIN Gatunki ON Gatunki.ID_Gatunek = ak_gk.Gatunek_ID
+    WHERE Gatunek_ID = parametr_gatunku;
+END //
+DELIMITER;
+CALL KsiążkiPoGatunku(7);

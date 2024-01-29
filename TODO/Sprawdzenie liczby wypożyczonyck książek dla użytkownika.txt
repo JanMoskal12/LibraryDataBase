@@ -1,0 +1,15 @@
+## Najpierw sprawdza w czytelnikach z kim ma do czynienia
+
+SELECT ID_Czytlenik, Imie, Nazwisko FROM Czytelnicy;
+
+## Następnie wyszukuje liste książek wypożyczonych przez danego użytkownika po Czytelnik_ID
+
+DELIMITER //
+CREATE PROCEDURE WypożyczoneEgzemplarzeUżytkownika(IN parametr_id INT)
+BEGIN
+SELECT Czytelnik_ID, Egzemplarz_ID AS 'Nr. wypożyczonego egzemplarza',DataWypożyczenia,DataOddania FROM Egzemplarze LEFT JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NOT NULL AND
+Czytelnik_ID = parametr_id;
+END //
+DELIMITER ;
+CALL WypożyczoneEgzemplarzeUżytkownika(7);
+

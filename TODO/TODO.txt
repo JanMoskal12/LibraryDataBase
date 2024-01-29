@@ -10,7 +10,7 @@ SELECT Tytuł, Imie, Nazwisko, NazwaGatunku as Gatunek FROM AutorzyKsiążki_Gat
 
 3)
 DELIMITER //
-CREATE PROCEDURE GetBooksByGenre(IN parametr_gatunku INT)
+CREATE PROCEDURE KsiążkiPoGatunku(IN parametr_gatunku INT)
 BEGIN
     SELECT Tytuł, Imie, Nazwisko, NazwaGatunku as Gatunek 
     FROM AutorzyKsiążki_GatunkiKsiążki AS ak_gk
@@ -25,7 +25,7 @@ CALL GetBooksByGenre(7);
 
 4)
 DELIMITER //
-CREATE PROCEDURE GetBooksByAutor(IN parametr_autor INT)
+CREATE PROCEDURE KsiążkiPoAutorze(IN parametr_autor INT)
 BEGIN
     SELECT Tytuł, Imie, Nazwisko, NazwaGatunku as Gatunek 
     FROM AutorzyKsiążki_GatunkiKsiążki AS ak_gk
@@ -35,14 +35,11 @@ BEGIN
     WHERE Autor_ID = parametr_autor;
 END //
 DELIMITER ;
-CALL GetBooksByAutor(7);
+CALL KsiążkiPoAutorze(7);
 
 5) 
 
 SELECT Imie, Nazwisko, Tytuł, Egzemplarz_ID, DataWypożyczenia, DataOddania FROM (SELECT * FROM Książki, Egzemplarze, Rejestr, Czytelnicy WHERE Egzemplarze.Książka_ID = Książki.ID_Książka AND Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID AND Rejestr.Czytelnik_ID = Czytelnicy.ID_Czytelnik) AS rkc O;
-
-
-
 
 
 #### Książki, które muszą być oddane przed, w lub po jakiejś dacie
@@ -103,7 +100,7 @@ SELECT ID_Egzemplarz AS 'Nr. wypożyczonego egzemplarza', Tytuł FROM Książki 
 SELECT Tytuł, COUNT(ID_Egzemplarz) AS 'Liczba dostępnych egzemplarzy' FROM Książki JOIN Egzemplarze ON Egzemplarze.Książka_ID = Książki.ID_Książka WHERE (ID_Egzemplarz NOT IN (SELECT ID_Egzemplarz FROM Egzemplarze CROSS JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NOT NULL)) GROUP BY Tytuł ORDER BY COUNT(ID_Egzemplarz) DESC;
 
 
-#####Pokazanie Pana Tadeusza i Lalki
+##### Pokazanie Pana Tadeusza i Lalki
 
 SELECT ID_Egzemplarz AS 'Nr. dostępnego egzemplarza', Tytuł FROM Książki JOIN Egzemplarze ON Książki.ID_Książka = Egzemplarze.Książka_ID WHERE (ID_Egzemplarz NOT IN (SELECT ID_Egzemplarz FROM Egzemplarze CROSS JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NOT NULL))
 HAVING Tytuł = 'Pan Tadeusz';
