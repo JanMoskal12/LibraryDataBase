@@ -37,28 +37,90 @@ END //
 DELIMITER ;
 CALL GetBooksByAutor(7);
 
-5) SELECT Tytuł, Egzemplarz_ID, DataWypożyczenia, DataOddania, Imie, Nazwisko FROM (SELECT * FROM Książki, Egzemplarze, Rejestr, Czytelnicy WHERE Książki.ID_Książka = Egzemplarze.Książka_ID AND Rejestr.Egzemplarz_ID = Egzemplarze.ID_Egzemplarz AND Rejestr.Czytelnik_ID = Czytelnicy.ID_Czytelnik) AS rkc;
+5) 
+
+SELECT Imie, Nazwisko, Tytuł, Egzemplarz_ID, DataWypożyczenia, DataOddania FROM (SELECT * FROM Książki, Egzemplarze, Rejestr, Czytelnicy WHERE Egzemplarze.Książka_ID = Książki.ID_Książka AND Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID AND Rejestr.Czytelnik_ID = Czytelnicy.ID_Czytelnik) AS rkc O;
 
 
-SELECT e.ID_Egzemplarz, k.Tytuł 
+
+
+
+#### Książki, które muszą być oddane przed, w lub po jakiejś dacie
+SELECT e.ID_Egzemplarz AS 'Numer egzemplarza', k.Tytuł
 FROM Egzemplarze e 
 JOIN Książki k ON e.Książka_ID = k.ID_Książka
-LEFT JOIN Rejestr r ON r.Egzemplarz_ID = e.ID_Egzemplarz 
-WHERE e.ID_Egzemplarz NOT IN (
+CROSS JOIN Rejestr r ON  e.ID_Egzemplarz = r.Egzemplarz_ID
+WHERE e.ID_Egzemplarz IN (
     SELECT Egzemplarz_ID 
     FROM Rejestr 
-    WHERE DataOddania < '2023-01-20'
-);
+    WHERE DataOddania > '2024-01-29'
+) ORDER BY DataOddania;
+
+SELECT e.ID_Egzemplarz AS 'Numer egzemplarza', k.Tytuł
+FROM Egzemplarze e 
+JOIN Książki k ON e.Książka_ID = k.ID_Książka
+CROSS JOIN Rejestr r ON  e.ID_Egzemplarz = r.Egzemplarz_ID
+WHERE e.ID_Egzemplarz IN (
+    SELECT Egzemplarz_ID 
+    FROM Rejestr 
+    WHERE DataOddania = '2024-01-29'
+) ORDER BY DataOddania;
+
+SELECT e.ID_Egzemplarz AS 'Numer egzemplarza', k.Tytuł
+FROM Egzemplarze e 
+JOIN Książki k ON e.Książka_ID = k.ID_Książka
+CROSS JOIN Rejestr r ON  e.ID_Egzemplarz = r.Egzemplarz_ID
+WHERE e.ID_Egzemplarz IN (
+    SELECT Egzemplarz_ID 
+    FROM Rejestr 
+    WHERE DataOddania < '2024-01-29'
+) ORDER BY DataOddania;
+
+
+
+### Testowanie triggera z dodawaniem książki
+INSERT INTO Rejestr VALUES (77,18, 6, '2024-01-17', '2024-01-31');
 
 
 
 #### Wybieranie wypożyczonych egzemplarzy
-SELECT Egzemplarz_ID FROM Egzemplarze LEFT JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NOT NULL;
+SELECT Egzemplarz_ID AS 'Nr. wypożyczonego egzemplarza' FROM Egzemplarze LEFT JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NOT NULL;
 
 
-#### Ksiażki z egzemplarzami dla tych nie wybranych
-SELECT ID_Egzemplarz, Tytuł FROM Książki JOIN Egzemplarze ON Książki.ID_Książka = Egzemplarze.Książka_ID WHERE (ID_Egzemplarz IN (SELECT ID_Egzemplarz FROM Egzemplarze LEFT JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NULL));
+#### Pokazanie z rejestru tylko książek wypożyczonych
+SELECT Czytelnik_ID, Egzemplarz_ID AS 'Nr. wypożyczonego egzemplarza',DataWypożyczenia,DataOddania FROM Egzemplarze LEFT JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NOT NULL
+ORDER BY Czytelnik_ID;
+
+
+#### Pokazanie z rejestru tylko książek zarezerwowanych
+SELECT * FROM Rejestr WHERE DataWypożyczenia IS NULL;
+
+#### Ksiażki z egzemplarzami dostępnymi
+SELECT ID_Egzemplarz AS 'Nr. wypożyczonego egzemplarza', Tytuł FROM Książki JOIN Egzemplarze ON Książki.ID_Książka = Egzemplarze.Książka_ID WHERE (ID_Egzemplarz NOT IN (SELECT ID_Egzemplarz FROM Egzemplarze CROSS JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NOT NULL));
 
 
 #### Posortowane dostepne egzemplarze dla danych ksiazek
-SELECT Tytuł, COUNT(ID_Egzemplarz) AS 'Liczba dostępnych egzemplarzy' FROM Książki JOIN Egzemplarze ON Książki.ID_Książka = Egzemplarze.Książka_ID WHERE (ID_Egzemplarz IN (SELECT ID_Egzemplarz FROM Egzemplarze LEFT JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NULL)) GROUP BY Tytuł ORDER BY COUNT(ID_Egzemplarz) DESC;
+SELECT Tytuł, COUNT(ID_Egzemplarz) AS 'Liczba dostępnych egzemplarzy' FROM Książki JOIN Egzemplarze ON Egzemplarze.Książka_ID = Książki.ID_Książka WHERE (ID_Egzemplarz NOT IN (SELECT ID_Egzemplarz FROM Egzemplarze CROSS JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NOT NULL)) GROUP BY Tytuł ORDER BY COUNT(ID_Egzemplarz) DESC;
+
+
+#####Pokazanie Pana Tadeusza i Lalki
+
+SELECT ID_Egzemplarz AS 'Nr. dostępnego egzemplarza', Tytuł FROM Książki JOIN Egzemplarze ON Książki.ID_Książka = Egzemplarze.Książka_ID WHERE (ID_Egzemplarz NOT IN (SELECT ID_Egzemplarz FROM Egzemplarze CROSS JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NOT NULL))
+HAVING Tytuł = 'Pan Tadeusz';
+
+SELECT ID_Egzemplarz AS 'Nr. wypożyczonego egzemplarza', Tytuł FROM Książki JOIN Egzemplarze ON Książki.ID_Książka = Egzemplarze.Książka_ID WHERE (ID_Egzemplarz IN (SELECT ID_Egzemplarz FROM Egzemplarze CROSS JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NOT NULL))
+HAVING Tytuł = 'Pan Tadeusz';
+
+
+SELECT * FROM Egzemplarze WHERE Książka_ID = 1;
+SELECT * FROM Rejestr WHERE Egzemplarz_ID IN(1,2,3);
+
+SELECT ID_Egzemplarz AS 'Nr. dostępnego egzemplarza', Tytuł FROM Książki JOIN Egzemplarze ON Książki.ID_Książka = Egzemplarze.Książka_ID WHERE (ID_Egzemplarz NOT IN (SELECT ID_Egzemplarz FROM Egzemplarze CROSS JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NOT NULL))
+HAVING Tytuł = 'Lalka';
+
+SELECT ID_Egzemplarz AS 'Nr. wypożyczonego egzemplarza', Tytuł FROM Książki JOIN Egzemplarze ON Książki.ID_Książka = Egzemplarze.Książka_ID WHERE (ID_Egzemplarz IN (SELECT ID_Egzemplarz FROM Egzemplarze CROSS JOIN Rejestr ON Egzemplarze.ID_Egzemplarz = Rejestr.Egzemplarz_ID WHERE DataOddania IS NOT NULL))
+HAVING Tytuł = 'Lalka';
+
+
+SELECT * FROM Egzemplarze WHERE Książka_ID = 2;
+SELECT * FROM Rejestr WHERE Egzemplarz_ID IN(4,5,6,7);

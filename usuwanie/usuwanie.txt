@@ -1,0 +1,8 @@
+DELETE FROM Rejestr
+WHERE ID_Rejestr = 55 OR ID_Rejestr = 29
+
+DELETE FROM Rejestr
+WHERE ID_Rejestr = 20
+
+DELETE FROM Rejestr
+WHERE ID_Rejestr = 59

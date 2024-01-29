@@ -1,0 +1,38 @@
+INSERT INTO Rejestr (Czytelnik_ID, Egzemplarz_ID) VALUES
+INSERT INTO Rejestr (Czytelnik_ID, Egzemplarz_ID) VALUES
+(14,2),(15,4),(16,5),(17,6);
+
+UPDATE Rejestr
+     SET DataWypożyczenia = '2024-01-16'
+     WHERE Egzemplarz_ID IN (1, 2, 3, 4, 5, 6);
+
+UPDATE Rejestr
+     SET DataOddania = '2024-01-30'
+     WHERE Egzemplarz_ID IN (1, 2, 3, 4, 5, 6);
+
+INSERT INTO Rejestr (Czytelnik_ID, Egzemplarz_ID) VALUES
+     (21,2),(20,4),(19,5),(18,6);
+
+
+
+KOD BŁĘDU 45000 - Próbujesz wypożyczyć wypożyczoną książkę
+
+DELIMITER // 
+CREATE TRIGGER before_insert_Rejestr
+BEFORE INSERT ON Rejestr
+FOR EACH ROW
+BEGIN
+    IF (NEW.DataWypożyczenia IS NOT NULL AND NEW.DataOddania IS NOT NULL) THEN
+        IF EXISTS (
+            SELECT 1
+            FROM Rejestr
+            WHERE Egzemplarz_ID = NEW.Egzemplarz_ID
+              AND DataOddania > NEW.DataWypożyczenia
+        ) THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Ta książka jest aktualnie w posiadaniu kogoś innego';
+        END IF;
+    END IF;
+END;
+//
+DELIMITER ;
