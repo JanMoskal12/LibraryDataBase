@@ -1,6 +1,6 @@
 INSERT INTO Rejestr (Czytelnik_ID, Egzemplarz_ID) VALUES
 INSERT INTO Rejestr (Czytelnik_ID, Egzemplarz_ID) VALUES
-(14,2),(15,4),(16,5),(17,6);
+(13,1),(14,2),(15,4),(16,5),(17,6);
 
 UPDATE Rejestr
      SET DataWypożyczenia = '2024-01-16'
@@ -36,3 +36,11 @@ BEGIN
 END;
 //
 DELIMITER ;
+
+ALTER TABLE Czytelnicy
+ADD CONSTRAINT unique_czytelnik
+UNIQUE (Imie, Nazwisko, Email, NumerTelefonu, Adres_ID)
+
+
+
+UNIQUE (Imie, Nazwisko, Email, NumerTelefonu, Adres_ID)

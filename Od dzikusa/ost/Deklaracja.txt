@@ -56,3 +56,4 @@ CREATE TABLE Rejestr (
     FOREIGN KEY (Czytelnik_ID) REFERENCES Czytelnicy(ID_Czytelnik),
     FOREIGN KEY (Egzemplarz_ID) REFERENCES Egzemplarze(ID_Egzemplarz)
 );
+
