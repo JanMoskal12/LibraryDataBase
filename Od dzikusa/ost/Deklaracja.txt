@@ -22,31 +22,45 @@ CREATE TABLE Autorzy (
     Imie VARCHAR(20) NOT NULL,
     Nazwisko VARCHAR(30) NOT NULL
 );
+
+
+
 CREATE TABLE Gatunki (
     ID_Gatunek INTEGER PRIMARY KEY AUTO_INCREMENT,
     NazwaGatunku VARCHAR(30) NOT NULL
 );
+
+
 CREATE TABLE Książki (
     ID_Książka INTEGER PRIMARY KEY AUTO_INCREMENT,
     Tytuł VARCHAR(60) NOT NULL
 );
+
+
 CREATE TABLE AutorzyKsiążki (
     Książka_ID INTEGER,
     Autor_ID INTEGER,
     FOREIGN KEY (Książka_ID) REFERENCES Książki (ID_Książka),
     FOREIGN KEY (Autor_ID) REFERENCES Autorzy (ID_Autor)
 );
+
+
+
 CREATE TABLE GatunkiKsiążki (
     Książka_ID INTEGER,
     Gatunek_ID INTEGER,
     FOREIGN KEY (Książka_ID) REFERENCES Książki (ID_Książka),
     FOREIGN KEY (Gatunek_ID) REFERENCES Gatunki (ID_Gatunek)
 );
+
+
 CREATE TABLE Egzemplarze (
     ID_Egzemplarz INT PRIMARY KEY AUTO_INCREMENT,
     Książka_ID INT NOT NULL,
     FOREIGN KEY (Książka_ID) REFERENCES Książki(ID_Książka)
 );
+
+
 CREATE TABLE Rejestr (
     ID_Rejestr INT PRIMARY KEY AUTO_INCREMENT,
     Czytelnik_ID INT NOT NULL,
