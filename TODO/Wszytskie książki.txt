@@ -1,7 +1,0 @@
-## Tworzymy perspektywe w której mamy połączone AutorKsiążki i GatunkiKsiążki
-
-CREATE VIEW AutorzyKsiążki_GatunkiKsiążki AS SELECT ak.Książka_ID, Gatunek_ID, Autor_ID FROM AutorzyKsiążki AS ak, GatunkiKsiążki AS gk WHERE gk.Książka_ID = ak.Książka_ID;
-
-## Następnie dołączamy tabele Książki, Gatunki, Autorzy, w ten sposób czytelnik może przeglądać książki dostępne w bibliotece
-
-SELECT Tytuł, Imie, Nazwisko, NazwaGatunku as Gatunek FROM AutorzyKsiążki_GatunkiKsiążki AS ak_gk, Książki, Autorzy, Gatunki WHERE Książki.ID_Książka = ak_gk.Książka_ID AND Gatunki.ID_Gatunek = ak_gk.Gatunek_ID AND Autorzy.ID_Autor = ak_gk.Autor_ID;
